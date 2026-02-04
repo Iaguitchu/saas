@@ -1,8 +1,6 @@
 from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
-
-# ✅ mesmo estilo do db.py
 from app.core.settings import Settings
 from app.models.models import Base 
 
@@ -24,7 +22,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
-        compare_type=True,  # ✅ detecta mudança de tipo
+        compare_type=True, 
     )
 
     with context.begin_transaction():
@@ -43,7 +41,7 @@ def run_migrations_online() -> None:
         context.configure(
             connection=connection,
             target_metadata=target_metadata,
-            compare_type=True,  # ✅ detecta mudança de tipo
+            compare_type=True,
         )
 
         with context.begin_transaction():

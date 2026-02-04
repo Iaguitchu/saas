@@ -22,6 +22,7 @@ def utcnow() -> datetime:
 # Enums
 # -------------------------
 class UserRole(str, enum.Enum):
+    super_admin = "super_admin"
     user = "user"
     pro = "pro"
     admin = "admin"
@@ -100,11 +101,11 @@ class User(Base):
 
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
-    brand_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("brands.id"), nullable=False)
+    brand_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), ForeignKey("brands.id"), nullable=True, index=True,)
 
     name: Mapped[str] = mapped_column(String(120), nullable=False)
-    email: Mapped[str] = mapped_column(String(255), nullable=False)
-    phone: Mapped[str] = mapped_column(String(30), nullable=False)  # ideal E.164: +551199...
+    email: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
+    phone: Mapped[str] = mapped_column(String(30), nullable=False, unique=True)  # ideal E.164: +551199...
 
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
 
